@@ -24,4 +24,12 @@ public class EmployeePayrollServiceTest {
 		System.out.println(entries);
 		Assert.assertEquals(3, entries);
 	}
+	@Test
+	public void writePayrollOnFile() {
+		EmployeePayrollData[] arrayOfEmployee = { new EmployeePayrollData(1, "Monica", 100000.0),
+				new EmployeePayrollData(2, "Joey", 200000.0), new EmployeePayrollData(3, "Ross", 300000.0) };
+		EmployeePayrollService employeePayrollService;
+		employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmployee));
+		employeePayrollService.writeEmployeePayrollData(IOService.FILE_IO);
+	}
 }
