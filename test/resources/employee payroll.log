@@ -2,39 +2,27 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-10-31T12:53:34.845602700Z</date>
-  <millis>1604148814845</millis>
-  <nanos>602700</nanos>
-  <sequence>0</sequence>
-  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollJDBC</logger>
-  <level>INFO</level>
-  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollJDBC</class>
-  <method>main</method>
-  <thread>1</thread>
-  <message>Driver Loaded</message>
-</record>
-<record>
-  <date>2020-10-31T12:53:34.922397400Z</date>
-  <millis>1604148814922</millis>
-  <nanos>397400</nanos>
+  <date>2020-10-31T19:27:20.929871300Z</date>
+  <millis>1604172440929</millis>
+  <nanos>871300</nanos>
   <sequence>1</sequence>
-  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollJDBC</logger>
+  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
-  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollJDBC</class>
-  <method>main</method>
+  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
+  <method>getConnection</method>
   <thread>1</thread>
   <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-10-31T12:53:35.515659600Z</date>
-  <millis>1604148815515</millis>
-  <nanos>659600</nanos>
+  <date>2020-10-31T19:27:21.636983400Z</date>
+  <millis>1604172441636</millis>
+  <nanos>983400</nanos>
   <sequence>2</sequence>
-  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollJDBC</logger>
+  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
-  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollJDBC</class>
-  <method>main</method>
+  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
+  <method>getConnection</method>
   <thread>1</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@7b2bbc3</message>
+  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@26275bef</message>
 </record>
 </log>

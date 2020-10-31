@@ -4,6 +4,10 @@
 package com.capgemini.javaio.employeepayroll;
 import org.junit.Assert;
 import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.junit.Test;
 
 import com.capgemini.javaio.employeepayroll.EmployeePayrollService.IOService;
@@ -12,6 +16,7 @@ import com.capgemini.javaio.employeepayroll.EmployeePayrollService.IOService;
  *
  */
 public class EmployeePayrollServiceTest {
+	private static Logger log = Logger.getLogger(EmployeePayrollServiceTest.class.getName());
 	@Test
 	public void gievn3EmployeesShouldMatchEmployeeEntries() {
 		EmployeePayrollData[] arrayOfEmployee = { new EmployeePayrollData(1, "Monica", 100000.0),
@@ -33,5 +38,12 @@ public class EmployeePayrollServiceTest {
 		employeePayrollService.writeEmployeePayrollData(IOService.FILE_IO);
 		long entries = employeePayrollService.countEntries(IOService.FILE_IO);
 		Assert.assertEquals(3, entries);
+	}
+	@Test
+	public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
+		log.log(Level.INFO, "JDBC Test");
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readPayrollData(IOService.DB_IO);
+		Assert.assertEquals(3, employeePayrollData.size());
 	}
 }
