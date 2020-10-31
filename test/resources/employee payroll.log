@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-10-31T12:53:34.845602700Z</date>
+  <millis>1604148814845</millis>
+  <nanos>602700</nanos>
+  <sequence>0</sequence>
+  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollJDBC</logger>
+  <level>INFO</level>
+  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollJDBC</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Driver Loaded</message>
+</record>
+<record>
+  <date>2020-10-31T12:53:34.922397400Z</date>
+  <millis>1604148814922</millis>
+  <nanos>397400</nanos>
+  <sequence>1</sequence>
+  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollJDBC</logger>
+  <level>INFO</level>
+  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollJDBC</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
+</record>
+<record>
+  <date>2020-10-31T12:53:35.515659600Z</date>
+  <millis>1604148815515</millis>
+  <nanos>659600</nanos>
+  <sequence>2</sequence>
+  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollJDBC</logger>
+  <level>INFO</level>
+  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollJDBC</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@7b2bbc3</message>
+</record>
+</log>

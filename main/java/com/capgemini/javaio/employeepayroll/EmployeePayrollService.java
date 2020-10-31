@@ -22,7 +22,7 @@ public class EmployeePayrollService {
 			EmployeePayrollService employeePayrollService = new EmployeePayrollService(employeePayrollList);
 			Scanner consoleInputReader = new Scanner(System.in);
 			employeePayrollService.readEmployeePayrollData(consoleInputReader);
-			employeePayrollService.writeEmployeePayrollData(IOService.CONSOLE_IO);
+			employeePayrollService.writeEmployeePayrollData(IOService.FILE_IO);
 		}
 		private void readEmployeePayrollData(Scanner consoleInputReader) {
 			System.out.println("Enter the employee ID : ");
