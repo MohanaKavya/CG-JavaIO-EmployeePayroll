@@ -9,11 +9,14 @@ public class EmployeePayrollService {
 		CONSOLE_IO, FILE_IO, DB_IO, REST_IO
 	}
 		private List<EmployeePayrollData> employeePayrollList;
+		private EmployeePayrollDBService employeePayrollDBService;
 
 		public EmployeePayrollService() {
+			employeePayrollDBService=EmployeePayrollDBService.getInstance();
 		}
 
 		public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
+			this();
 			this.employeePayrollList = employeePayrollList;
 		}
 
@@ -62,7 +65,7 @@ public class EmployeePayrollService {
 			if (ioService.equals(IOService.FILE_IO))
 				this.employeePayrollList = new EmployeePayrollFileIOService().readData();
 			else if(ioService.equals(IOService.DB_IO))
-				this.employeePayrollList = new EmployeePayrollDBService().readData();
+				this.employeePayrollList = employeePayrollDBService.readData();
 			return employeePayrollList;
 		}
 
@@ -73,7 +76,7 @@ public class EmployeePayrollService {
 		 * @throws PayrollSystemException 
 		 */
 		public void updateEmployeeSalary(String name, double salary) throws PayrollSystemException {
-			int numOfRowsModified = new EmployeePayrollDBService().updateEmployeeData(name, salary);
+			int numOfRowsModified = employeePayrollDBService.updateEmployeeData(name, salary);
 			if (numOfRowsModified == 0) {
 				throw new PayrollSystemException("no rows updated", PayrollSystemException.ExceptionType.UPDATE_DATABASE_EXCEPTION);
 			}
@@ -97,7 +100,7 @@ public class EmployeePayrollService {
 		 * @return boolean value
 		 */
 		public boolean checkEmployeePayrollInSyncWithDB(String name) {
-			List<EmployeePayrollData> employeePayrollDataList = new EmployeePayrollDBService().getEmployeePayrollData(name);
+			List<EmployeePayrollData> employeePayrollDataList = employeePayrollDBService.getEmployeePayrollData(name);
 			return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
 		}
 

@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-11-01T15:07:10.431197700Z</date>
-  <millis>1604243230431</millis>
-  <nanos>197700</nanos>
+  <date>2020-11-01T16:04:20.842944200Z</date>
+  <millis>1604246660842</millis>
+  <nanos>944200</nanos>
   <sequence>1</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-01T15:07:11.169633600Z</date>
-  <millis>1604243231169</millis>
-  <nanos>633600</nanos>
+  <date>2020-11-01T16:04:21.506177400Z</date>
+  <millis>1604246661506</millis>
+  <nanos>177400</nanos>
   <sequence>2</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>

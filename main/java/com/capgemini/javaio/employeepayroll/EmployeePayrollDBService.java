@@ -26,9 +26,16 @@ public class EmployeePayrollDBService {
 	private static Logger log = Logger.getLogger(EmployeePayrollDBService.class.getName());
 	
 	private static PreparedStatement employeePayrollDataPreparedStatement;
-	
-	public EmployeePayrollDBService() {
-		employeePayrollDataPreparedStatement = null;
+	private static EmployeePayrollDBService employeePayrollDBService;
+
+	private EmployeePayrollDBService() {
+	}
+
+	public static EmployeePayrollDBService getInstance() {
+		if (employeePayrollDBService == null) {
+			employeePayrollDBService = new EmployeePayrollDBService();
+		}
+		return employeePayrollDBService;
 	}
 
 	/**
@@ -104,7 +111,7 @@ public class EmployeePayrollDBService {
 				employeePayrollList.add(new EmployeePayrollData(id, name, Salary, startDate));
 			}
 		}catch(SQLException e) {
-			e.printStackTrace();
+			log.log(Level.SEVERE, "Failed : "+e);
 		}
 		return employeePayrollList;
 	}
