@@ -66,5 +66,40 @@ public class EmployeePayrollService {
 			return employeePayrollList;
 		}
 
+		/**
+		 * Update Record in Database and Employee Payroll object
+		 * @param string Employee name
+		 * @param double salary
+		 * @throws PayrollSystemException 
+		 */
+		public void updateEmployeeSalary(String name, double salary) throws PayrollSystemException {
+			int numOfRowsModified = new EmployeePayrollDBService().updateEmployeeData(name, salary);
+			if (numOfRowsModified == 0) {
+				throw new PayrollSystemException("no rows updated", PayrollSystemException.ExceptionType.UPDATE_DATABASE_EXCEPTION);
+			}
+			EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
+			if (employeePayrollData != null)
+				employeePayrollData.salary = salary;
+		}
+
+		/**
+		 * Fetch Particular Employee Payroll object by Employee Name
+		 * @param Employee name
+		 * @return Employee Payroll Data Object
+		 */
+		private EmployeePayrollData getEmployeePayrollData(String name) {
+			return this.employeePayrollList.stream().filter(emp -> emp.name.equals(name)).findFirst().orElse(null);
+		}
+
+		/**
+		 * Check the data sync between Employee Payroll objects and Database records
+		 * @param name
+		 * @return boolean value
+		 */
+		public boolean checkEmployeePayrollInSyncWithDB(String name) {
+			List<EmployeePayrollData> employeePayrollDataList = new EmployeePayrollDBService().getEmployeePayrollData(name);
+			return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
+		}
+
 
 }
