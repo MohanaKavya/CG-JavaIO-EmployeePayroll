@@ -24,6 +24,12 @@ import java.util.logging.Logger;
  */
 public class EmployeePayrollDBService {
 	private static Logger log = Logger.getLogger(EmployeePayrollDBService.class.getName());
+	
+	private static PreparedStatement employeePayrollDataPreparedStatement;
+	
+	public EmployeePayrollDBService() {
+		employeePayrollDataPreparedStatement = null;
+	}
 
 	/**
 	 * Reading Records from Database to program 
@@ -34,8 +40,8 @@ public class EmployeePayrollDBService {
 		List<EmployeePayrollData> empList = new ArrayList();
 		try {
 			Connection connection = this.getConnection();
-			PreparedStatement prepStatement = connection.prepareStatement(query);
-			ResultSet result = prepStatement.executeQuery();
+			employeePayrollDataPreparedStatement = connection.prepareStatement(query);
+			ResultSet result = employeePayrollDataPreparedStatement.executeQuery();
 			empList = this.getEmployeePayrollData(result);
 		} catch (SQLException | SecurityException | IOException e) {
 			log.log(Level.SEVERE, "Failed : "+e);
@@ -51,10 +57,12 @@ public class EmployeePayrollDBService {
 	 * @return number of rows modified
 	 */
 	public int updateEmployeeData(String name, double salary) {
-		String sql = String.format("update payroll_employee set salary=%.2f where name='%s';", salary, name);
+		String sql = String.format("update payroll_employee set salary=? where name=?;");
 		try (Connection connection = this.getConnection();) {
-			Statement statement = connection.createStatement();
-			return statement.executeUpdate(sql);
+			employeePayrollDataPreparedStatement = connection.prepareStatement(sql);
+			employeePayrollDataPreparedStatement.setDouble(1, salary);
+			employeePayrollDataPreparedStatement.setString(2, name);
+			return employeePayrollDataPreparedStatement.executeUpdate();
 		} catch (SQLException | SecurityException | IOException e) {
 			log.log(Level.SEVERE, "Failed : "+e);
 		}
@@ -67,16 +75,17 @@ public class EmployeePayrollDBService {
 	 * @return List of EmployePayrollData objects
 	 */
 	public List<EmployeePayrollData> getEmployeePayrollData(String name) {
-		String sql = String.format("SELECT * FROM payroll_employee WHERE name='%s';", name);
-		try (Connection connection = this.getConnection();) {
-			Statement statement = connection.createStatement();
-			ResultSet result = statement.executeQuery(sql);
-			List<EmployeePayrollData> empListByName = this.getEmployeePayrollData(result);
-			return empListByName;
-		} catch (SQLException | SecurityException | IOException e) {
+		List<EmployeePayrollData> employeeParollListByName = null;
+		if (this.employeePayrollDataPreparedStatement == null)
+			this.prepareStatementForEmployeeDataByName();
+		try {
+			employeePayrollDataPreparedStatement.setString(1,name);
+			ResultSet resultSet=employeePayrollDataPreparedStatement.executeQuery();
+			employeeParollListByName= this.getEmployeePayrollData(resultSet);
+		}catch (SQLException e) {
 			log.log(Level.SEVERE, "Failed : "+e);
 		}
-		return null;
+		return employeeParollListByName;
 	}
 	
 	/** 
@@ -98,6 +107,16 @@ public class EmployeePayrollDBService {
 			e.printStackTrace();
 		}
 		return employeePayrollList;
+	}
+	
+	private void prepareStatementForEmployeeDataByName() {
+		try {
+			Connection connection = this.getConnection();
+			String sql = "SELECT * FROM employee_payroll WHERE name=?";
+			employeePayrollDataPreparedStatement = connection.prepareStatement(sql);
+		} catch (SQLException | SecurityException | IOException e) {
+			log.log(Level.SEVERE, "Failed : "+e);
+		}
 	}
 
 	/**
