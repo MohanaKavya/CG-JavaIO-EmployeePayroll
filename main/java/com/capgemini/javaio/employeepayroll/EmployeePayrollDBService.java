@@ -13,7 +13,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -86,6 +88,27 @@ public class EmployeePayrollDBService {
 		String sql = String.format("SELECT * FROM payroll_employee where start between '%s' AND '%s';", Date.valueOf(startDate), Date.valueOf(endDate));
 		return this.getEmployeePayrollDataFromDB(sql);
 	}
+
+	/**
+	 * @return Map Key : Gender, Value is Average of Salaries
+	 */
+	public Map<String, Double> getAverageSalaryGroupByGender() {
+		String sql = "SELECT gender, AVG(salary) as avg_salary FROM payroll_employee group by gender;";
+		Map<String, Double> genderToAverageSalaryMap = new HashMap<>();
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			while (result.next()) {
+				String gender = result.getString("gender");
+				double salary = result.getDouble("avg_salary");
+				genderToAverageSalaryMap.put(gender, salary);
+			}
+		} catch (SQLException | SecurityException | IOException e) {
+			log.log(Level.SEVERE, "Failed : "+e);
+		}
+		return genderToAverageSalaryMap;
+	}
+	
 	/**
 	 * Used Dry Principle to Consolidate Code to read data from database
 	 * @param sql Query
@@ -117,7 +140,8 @@ public class EmployeePayrollDBService {
 				String name = result.getString("name");
 				double Salary = result.getDouble("salary");
 				LocalDate startDate = result.getDate("start").toLocalDate();
-				employeePayrollList.add(new EmployeePayrollData(id, name, Salary, startDate));
+				char gender = result.getString("gender").charAt(0);
+				employeePayrollList.add(new EmployeePayrollData(id, name, Salary, startDate, gender));
 			}
 		return employeePayrollList;
 	}
@@ -145,7 +169,7 @@ public class EmployeePayrollDBService {
 		log.log(Level.INFO, "Connection Succesfull : "+connection);
 	return connection;
 	}
-	
+
 }
 
 

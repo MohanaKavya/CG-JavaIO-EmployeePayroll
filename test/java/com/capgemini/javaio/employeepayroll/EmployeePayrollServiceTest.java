@@ -4,6 +4,7 @@ package com.capgemini.javaio.employeepayroll;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,11 +66,22 @@ public class EmployeePayrollServiceTest {
 	public void givenDateRange_WhenRetrieved_ShouldMatchEmployeeCount() throws PayrollSystemException {
 		log.log(Level.INFO, "JDBC Test UC5");
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-		//employeePayrollService.readPayrollData(IOService.DB_IO);
+		employeePayrollService.readPayrollData(IOService.DB_IO);
 		LocalDate startDate = LocalDate.of(2019, 01, 01);
 		LocalDate endDate = LocalDate.now();
 		List<EmployeePayrollData> employeePayrollData1 = employeePayrollService.readEmployeePayrollDataForDateRange(startDate, endDate);
-		System.out.println("Size is :"+employeePayrollData1.size());
 		Assert.assertEquals(2, employeePayrollData1.size());
+	}
+	
+	//UC6
+	@Test
+	public void findSumAverageMinMaxCount_ofEmployees_ShouldMatchEmployeeCount() throws PayrollSystemException {
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readPayrollData(IOService.DB_IO);
+		Map<String, Double> genderToAverageSalaryMap = employeePayrollService.getAvgSalary(IOService.DB_IO);
+		Double avgSalaryMale = 3500.0;
+		Assert.assertEquals(avgSalaryMale, genderToAverageSalaryMap.get("M"));
+		Double avgSalaryFemale = 3000000.0;
+		Assert.assertEquals(avgSalaryFemale, genderToAverageSalaryMap.get("F"));
 	}
 }

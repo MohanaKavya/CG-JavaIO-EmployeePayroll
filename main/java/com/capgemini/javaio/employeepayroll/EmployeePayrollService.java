@@ -3,6 +3,7 @@ package com.capgemini.javaio.employeepayroll;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class EmployeePayrollService {
@@ -11,6 +12,7 @@ public class EmployeePayrollService {
 	}
 		private List<EmployeePayrollData> employeePayrollList;
 		private EmployeePayrollDBService employeePayrollDBService;
+		private Map<String, Double> genderToAverageSalaryMap;
 
 		public EmployeePayrollService() {
 			employeePayrollDBService=EmployeePayrollDBService.getInstance();
@@ -76,13 +78,17 @@ public class EmployeePayrollService {
 		 * @param double salary
 		 * @throws PayrollSystemException 
 		 */
-		public void updateEmployeeSalary(String name, double salary) throws PayrollSystemException {
-			int numOfRowsModified = employeePayrollDBService.updateEmployeeData(name, salary);
-			if (numOfRowsModified == 0) 
-				throw new PayrollSystemException("no rows updated", PayrollSystemException.ExceptionType.UPDATE_DATABASE_EXCEPTION);
-			EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
-			if (employeePayrollData != null)
-				employeePayrollData.salary = salary;
+		public void updateEmployeeSalary(String name, double salary) {
+			try {
+				int numOfRowsModified = employeePayrollDBService.updateEmployeeData(name, salary);
+				if (numOfRowsModified == 0) 
+					throw new PayrollSystemException("no rows updated", PayrollSystemException.ExceptionType.UPDATE_DATABASE_EXCEPTION);
+				EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
+				if (employeePayrollData != null)
+					employeePayrollData.salary = salary;
+			} catch(PayrollSystemException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 
 		/**
@@ -111,12 +117,35 @@ public class EmployeePayrollService {
 		 * @return List of Employee Payroll Data
 		 * @throws PayrollSystemException 
 		 */
-		public List<EmployeePayrollData> readEmployeePayrollDataForDateRange(LocalDate startDate, LocalDate endDate) throws PayrollSystemException {
+		public List<EmployeePayrollData> readEmployeePayrollDataForDateRange(LocalDate startDate, LocalDate endDate) {
+			try {
 			List<EmployeePayrollData> employeePayrollDataList = employeePayrollDBService.readEmpPayrollDBInGivenDateRange(startDate, endDate);
-			
 			if(employeePayrollDataList!=null)
 				return employeePayrollDataList;
 			else
 				throw new PayrollSystemException("no rows selected for the given date range", PayrollSystemException.ExceptionType.RETRIEVE_DATA_FOR_DATERANGE_EXCEPTION);
+			} catch(PayrollSystemException e) {
+				System.out.println(e.getMessage());
+			}
+			return null;
+		}
+
+		/**
+		 * @param IOService Type
+		 * @return Map Key : Gender, Value : Avg Salary 
+		 */
+		public Map<String, Double> getAvgSalary(IOService ioService) {
+			try {
+				if (ioService.equals(IOService.DB_IO))
+					this.genderToAverageSalaryMap = employeePayrollDBService.getAverageSalaryGroupByGender();
+				if (genderToAverageSalaryMap.isEmpty()) {
+					throw new PayrollSystemException("no data retrieved",
+							PayrollSystemException.ExceptionType.MANIPULATE_AND_RETRIEVE_EXCEPTION);
+				}
+			} catch (PayrollSystemException e) {
+				System.out.println(e.getMessage());
+			}
+			return genderToAverageSalaryMap;
 		}
 }
+
