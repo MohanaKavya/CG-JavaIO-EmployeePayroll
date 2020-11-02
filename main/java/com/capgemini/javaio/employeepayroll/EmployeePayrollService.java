@@ -13,6 +13,7 @@ public class EmployeePayrollService {
 		private List<EmployeePayrollData> employeePayrollList;
 		private EmployeePayrollDBService employeePayrollDBService;
 		private Map<String, Double> genderToAverageSalaryMap;
+		public static EmployeePayrollData newEmpPayrollDataObj;
 
 		public EmployeePayrollService() {
 			employeePayrollDBService=EmployeePayrollDBService.getInstance();
@@ -46,7 +47,8 @@ public class EmployeePayrollService {
 				System.out.println("Writing Employee payroll data on Console: " + employeePayrollList);
 			else if (ioService.equals(IOService.FILE_IO))
 				new EmployeePayrollFileIOService().writeData(employeePayrollList);
-
+			else if(ioService.equals(IOService.DB_IO))
+				this.addEmpPayrollToDB();
 		}
 
 		public void printData(IOService ioService) {
@@ -147,5 +149,22 @@ public class EmployeePayrollService {
 			}
 			return genderToAverageSalaryMap;
 		}
+		
+		/**
+		 * Insert new Record into Database, If Successful should add new Employee Payroll data into List
+		 */
+		private void addEmpPayrollToDB() {
+			try {
+				int rowsModified = employeePayrollDBService.writeEmployeePayrollToDB(newEmpPayrollDataObj.name, newEmpPayrollDataObj.salary,
+						newEmpPayrollDataObj.startDate, newEmpPayrollDataObj.gender);
+				if(rowsModified==1)
+					this.employeePayrollList.add(newEmpPayrollDataObj);
+				else
+					throw new PayrollSystemException("Failed to Insert new rows", PayrollSystemException.ExceptionType.INSERT_INTO_DB_EXCEPTION);				
+			} catch (PayrollSystemException e) {
+				System.out.println(e.getMessage());
+			}	
+		}
+	
 }
 

@@ -47,7 +47,7 @@ public class EmployeePayrollServiceTest {
 		log.log(Level.INFO, "JDBC Test UC2");
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readPayrollData(IOService.DB_IO);
-		Assert.assertEquals(3, employeePayrollData.size());
+		Assert.assertEquals(4, employeePayrollData.size());
 	}
 	
 	//UC3 and UC4
@@ -70,7 +70,7 @@ public class EmployeePayrollServiceTest {
 		LocalDate startDate = LocalDate.of(2019, 01, 01);
 		LocalDate endDate = LocalDate.now();
 		List<EmployeePayrollData> employeePayrollData1 = employeePayrollService.readEmployeePayrollDataForDateRange(startDate, endDate);
-		Assert.assertEquals(2, employeePayrollData1.size());
+		Assert.assertEquals(3, employeePayrollData1.size());
 	}
 	
 	//UC6
@@ -81,7 +81,18 @@ public class EmployeePayrollServiceTest {
 		Map<String, Double> genderToAverageSalaryMap = employeePayrollService.getAvgSalary(IOService.DB_IO);
 		Double avgSalaryMale = 3500.0;
 		Assert.assertEquals(avgSalaryMale, genderToAverageSalaryMap.get("M"));
-		Double avgSalaryFemale = 3000000.0;
+		Double avgSalaryFemale = 4000000.0;
 		Assert.assertEquals(avgSalaryFemale, genderToAverageSalaryMap.get("F"));
+	}
+	
+	//UC7
+	@Test
+	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readPayrollData(IOService.DB_IO);
+		EmployeePayrollService.newEmpPayrollDataObj = new EmployeePayrollData("Sakura Cha",5000000.0,LocalDate.now(),'F');
+		employeePayrollService.writeEmployeePayrollData(IOService.DB_IO);
+		boolean result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Sakura Cha");
+		Assert.assertTrue(result);
 	}
 }

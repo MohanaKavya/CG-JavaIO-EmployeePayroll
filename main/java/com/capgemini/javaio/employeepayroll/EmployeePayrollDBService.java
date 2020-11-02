@@ -51,6 +51,35 @@ public class EmployeePayrollDBService {
 	}
 
 	/**
+	 * To write into Database
+	 * @param name
+	 * @param salary
+	 * @param startDate
+	 * @param gender
+	 * @return number of rows modified
+	 */
+	public int writeEmployeePayrollToDB(String name, double salary, LocalDate startDate, char gender) {
+		int rowAffected = 0;
+		log.info("rows affected : "+rowAffected);
+		String sql = String.format("INSERT INTO payroll_employee (name, salary, start, gender)"+ " VALUES('%s',%.2f,'%s','%s')", name, salary, Date.valueOf(startDate), gender);
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			rowAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
+			log.info("rows affected : "+rowAffected);
+			if (rowAffected == 1) {
+				ResultSet result = statement.getGeneratedKeys();
+				if (result.next()) {
+					EmployeePayrollService.newEmpPayrollDataObj.id = result.getInt(1);
+					log.info("id : "+EmployeePayrollService.newEmpPayrollDataObj.id);
+				}
+			}
+		} catch (SQLException | SecurityException | IOException e) {
+			log.log(Level.SEVERE, "Failed : "+e);
+		}
+		return rowAffected;
+	}
+
+	/**
 	 * Update Salary in Database by Employee Name
 	 * @param name
 	 * @param salary
