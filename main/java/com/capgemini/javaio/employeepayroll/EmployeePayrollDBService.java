@@ -5,6 +5,7 @@ package com.capgemini.javaio.employeepayroll;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,20 +44,10 @@ public class EmployeePayrollDBService {
 	 * @return List of Employee Payroll objects
 	 */
 	public List<EmployeePayrollData> readData() {
-		String query = "SELECT * FROM payroll_employee";	
-		List<EmployeePayrollData> empList = new ArrayList();
-		try {
-			Connection connection = this.getConnection();
-			employeePayrollDataPreparedStatement = connection.prepareStatement(query);
-			ResultSet result = employeePayrollDataPreparedStatement.executeQuery();
-			empList = this.getEmployeePayrollData(result);
-		} catch (SQLException | SecurityException | IOException e) {
-			log.log(Level.SEVERE, "Failed : "+e);
-		}
-		
-		return empList;
+		String sql = "SELECT * FROM payroll_employee";	
+		return this.getEmployeePayrollDataFromDB(sql);	
 	}
-	
+
 	/**
 	 * Update Salary in Database by Employee Name
 	 * @param name
@@ -81,28 +72,46 @@ public class EmployeePayrollDBService {
 	 * @param name
 	 * @return List of EmployePayrollData objects
 	 */
-	public List<EmployeePayrollData> getEmployeePayrollData(String name) {
-		List<EmployeePayrollData> employeeParollListByName = null;
-		if (this.employeePayrollDataPreparedStatement == null)
-			this.prepareStatementForEmployeeDataByName();
+	public List<EmployeePayrollData> getEmployeePayrollDataByName(String name) {
+		String sql = String.format("SELECT * FROM payroll_employee WHERE name='%s';", name);
+		return this.getEmployeePayrollDataFromDB(sql);
+	}
+
+	/**
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public List<EmployeePayrollData> readEmpPayrollDBInGivenDateRange(LocalDate startDate, LocalDate endDate) {
+		String sql = String.format("SELECT * FROM payroll_employee where start between '%s' AND '%s';", Date.valueOf(startDate), Date.valueOf(endDate));
+		return this.getEmployeePayrollDataFromDB(sql);
+	}
+	/**
+	 * Used Dry Principle to Consolidate Code to read data from database
+	 * @param sql Query
+	 * @return List of Employee Payroll Data Objects
+	 */
+	private List<EmployeePayrollData> getEmployeePayrollDataFromDB(String sql) {
+		List<EmployeePayrollData> employeePayrollDataList = null;
 		try {
-			employeePayrollDataPreparedStatement.setString(1,name);
-			ResultSet resultSet=employeePayrollDataPreparedStatement.executeQuery();
-			employeeParollListByName= this.getEmployeePayrollData(resultSet);
-		}catch (SQLException e) {
+			Connection connection = this.getConnection();
+			employeePayrollDataPreparedStatement = connection.prepareStatement(sql);
+			ResultSet result = employeePayrollDataPreparedStatement.executeQuery();
+			employeePayrollDataList = this.getEmployeePayrollData(result);
+		} catch (SQLException | SecurityException | IOException e) {
 			log.log(Level.SEVERE, "Failed : "+e);
 		}
-		return employeeParollListByName;
+		return employeePayrollDataList;
 	}
 	
 	/** 
 	 * Populating Database Records to EmployeePayrollData Class's Objects
 	 * @param Result Set
 	 * @return List of Employee Objects
+	 * @throws SQLException 
 	 */
-	private List<EmployeePayrollData> getEmployeePayrollData(ResultSet result) {
+	private List<EmployeePayrollData> getEmployeePayrollData(ResultSet result) throws SQLException {
 		List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
-		try {
 			while (result.next()) {
 				int id = result.getInt("id");
 				String name = result.getString("name");
@@ -110,20 +119,7 @@ public class EmployeePayrollDBService {
 				LocalDate startDate = result.getDate("start").toLocalDate();
 				employeePayrollList.add(new EmployeePayrollData(id, name, Salary, startDate));
 			}
-		}catch(SQLException e) {
-			log.log(Level.SEVERE, "Failed : "+e);
-		}
 		return employeePayrollList;
-	}
-	
-	private void prepareStatementForEmployeeDataByName() {
-		try {
-			Connection connection = this.getConnection();
-			String sql = "SELECT * FROM employee_payroll WHERE name=?";
-			employeePayrollDataPreparedStatement = connection.prepareStatement(sql);
-		} catch (SQLException | SecurityException | IOException e) {
-			log.log(Level.SEVERE, "Failed : "+e);
-		}
 	}
 
 	/**

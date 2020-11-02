@@ -9,7 +9,7 @@ package com.capgemini.javaio.employeepayroll;
  */
 public class PayrollSystemException extends Exception {
 	enum ExceptionType {
-		UPDATE_DATABASE_EXCEPTION
+		UPDATE_DATABASE_EXCEPTION, RETRIEVE_DATA_FOR_DATERANGE_EXCEPTION
 	}
 
 	ExceptionType type;

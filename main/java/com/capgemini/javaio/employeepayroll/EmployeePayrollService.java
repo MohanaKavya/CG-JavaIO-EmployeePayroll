@@ -1,5 +1,6 @@
 package com.capgemini.javaio.employeepayroll;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -77,9 +78,8 @@ public class EmployeePayrollService {
 		 */
 		public void updateEmployeeSalary(String name, double salary) throws PayrollSystemException {
 			int numOfRowsModified = employeePayrollDBService.updateEmployeeData(name, salary);
-			if (numOfRowsModified == 0) {
+			if (numOfRowsModified == 0) 
 				throw new PayrollSystemException("no rows updated", PayrollSystemException.ExceptionType.UPDATE_DATABASE_EXCEPTION);
-			}
 			EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
 			if (employeePayrollData != null)
 				employeePayrollData.salary = salary;
@@ -100,9 +100,23 @@ public class EmployeePayrollService {
 		 * @return boolean value
 		 */
 		public boolean checkEmployeePayrollInSyncWithDB(String name) {
-			List<EmployeePayrollData> employeePayrollDataList = employeePayrollDBService.getEmployeePayrollData(name);
+			List<EmployeePayrollData> employeePayrollDataList = employeePayrollDBService.getEmployeePayrollDataByName(name);
 			return employeePayrollDataList.get(0).equals(getEmployeePayrollData(name));
 		}
 
-
+		/**
+		 * Fetching Data Based on Given Date Range
+		 * @param startDate
+		 * @param endDate
+		 * @return List of Employee Payroll Data
+		 * @throws PayrollSystemException 
+		 */
+		public List<EmployeePayrollData> readEmployeePayrollDataForDateRange(LocalDate startDate, LocalDate endDate) throws PayrollSystemException {
+			List<EmployeePayrollData> employeePayrollDataList = employeePayrollDBService.readEmpPayrollDBInGivenDateRange(startDate, endDate);
+			
+			if(employeePayrollDataList!=null)
+				return employeePayrollDataList;
+			else
+				throw new PayrollSystemException("no rows selected for the given date range", PayrollSystemException.ExceptionType.RETRIEVE_DATA_FOR_DATERANGE_EXCEPTION);
+		}
 }

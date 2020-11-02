@@ -1,13 +1,13 @@
-/**
- * 
- */
+
 package com.capgemini.javaio.employeepayroll;
-import org.junit.Assert;
+
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.capgemini.javaio.employeepayroll.EmployeePayrollService.IOService;
@@ -18,7 +18,7 @@ import com.capgemini.javaio.employeepayroll.EmployeePayrollService.IOService;
 public class EmployeePayrollServiceTest {
 	private static Logger log = Logger.getLogger(EmployeePayrollServiceTest.class.getName());
 	@Test
-	public void gievn3EmployeesShouldMatchEmployeeEntries() {
+	public void given3EmployeesShouldMatchEmployeeEntries() {
 		EmployeePayrollData[] arrayOfEmployee = { new EmployeePayrollData(1, "Monica", 100000.0),
 				new EmployeePayrollData(2, "Joey", 200000.0), new EmployeePayrollData(3, "Ross", 300000.0) };
 		EmployeePayrollService employeePayrollService;
@@ -39,19 +39,37 @@ public class EmployeePayrollServiceTest {
 		long entries = employeePayrollService.countEntries(IOService.FILE_IO);
 		Assert.assertEquals(3, entries);
 	}
+	
+	//UC2
 	@Test
 	public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
-		log.log(Level.INFO, "JDBC Test");
+		log.log(Level.INFO, "JDBC Test UC2");
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readPayrollData(IOService.DB_IO);
 		Assert.assertEquals(3, employeePayrollData.size());
 	}
+	
+	//UC3 and UC4
 	@Test
 	public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB() throws PayrollSystemException {
+		log.log(Level.INFO, "JDBC Test UC3 and UC4");
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readPayrollData(IOService.DB_IO);
-		employeePayrollService.updateEmployeeSalary("terisa",3000000.0);
-		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("terisa");
+		employeePayrollService.updateEmployeeSalary("Terissa",3000000.0);
+		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Terissa");
 		Assert.assertTrue(result);
+	}
+	
+	//UC5
+	@Test
+	public void givenDateRange_WhenRetrieved_ShouldMatchEmployeeCount() throws PayrollSystemException {
+		log.log(Level.INFO, "JDBC Test UC5");
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		//employeePayrollService.readPayrollData(IOService.DB_IO);
+		LocalDate startDate = LocalDate.of(2019, 01, 01);
+		LocalDate endDate = LocalDate.now();
+		List<EmployeePayrollData> employeePayrollData1 = employeePayrollService.readEmployeePayrollDataForDateRange(startDate, endDate);
+		System.out.println("Size is :"+employeePayrollData1.size());
+		Assert.assertEquals(2, employeePayrollData1.size());
 	}
 }
