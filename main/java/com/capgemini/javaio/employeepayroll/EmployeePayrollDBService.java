@@ -60,17 +60,29 @@ public class EmployeePayrollDBService {
 	 */
 	public int writeEmployeePayrollToDB(String name, double salary, LocalDate startDate, char gender) {
 		int rowAffected = 0;
-		log.info("rows affected : "+rowAffected);
+		int empId = 0;
 		String sql = String.format("INSERT INTO payroll_employee (name, salary, start, gender)"+ " VALUES('%s',%.2f,'%s','%s')", name, salary, Date.valueOf(startDate), gender);
 		try (Connection connection = this.getConnection()) {
 			Statement statement = connection.createStatement();
 			rowAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
-			log.info("rows affected : "+rowAffected);
 			if (rowAffected == 1) {
 				ResultSet result = statement.getGeneratedKeys();
 				if (result.next()) {
-					EmployeePayrollService.newEmpPayrollDataObj.id = result.getInt(1);
-					log.info("id : "+EmployeePayrollService.newEmpPayrollDataObj.id);
+					empId = result.getInt(1);
+				}
+				try {
+					double deductions = salary * 0.2;
+					double taxablePay = salary - deductions;
+					double tax = taxablePay * 0.1;
+					double netPay = salary - tax;
+					String sql1 = String.format(
+							"INSERT INTO payroll_details(id,basic_pay,deductions,taxable_pay,tax ,net_pay)VALUES (%s,%s,%s,%s,%s,%s)",
+							empId, salary, deductions, taxablePay, tax, netPay);
+					rowAffected = statement.executeUpdate(sql1);
+					if (rowAffected == 1) 
+						EmployeePayrollService.newEmpPayrollDataObj.id = empId;
+				}  catch (SQLException ex) {
+					log.log(Level.SEVERE, "Failed : "+ex);
 				}
 			}
 		} catch (SQLException | SecurityException | IOException e) {

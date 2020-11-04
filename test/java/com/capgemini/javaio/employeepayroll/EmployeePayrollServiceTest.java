@@ -85,7 +85,7 @@ public class EmployeePayrollServiceTest {
 		Assert.assertEquals(avgSalaryFemale, genderToAverageSalaryMap.get("F"));
 	}
 	
-	//UC7
+	//UC7 & UC8
 	@Test
 	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
@@ -95,4 +95,6 @@ public class EmployeePayrollServiceTest {
 		boolean result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Sakura Cha");
 		Assert.assertTrue(result);
 	}
+	
+	
 }
