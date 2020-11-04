@@ -76,6 +76,7 @@ public class EmployeePayrollServiceTest {
 	//UC6
 	@Test
 	public void findSumAverageMinMaxCount_ofEmployees_ShouldMatchEmployeeCount() throws PayrollSystemException {
+		log.log(Level.INFO, "JDBC Test UC6");
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readPayrollData(IOService.DB_IO);
 		Map<String, Double> genderToAverageSalaryMap = employeePayrollService.getAvgSalary(IOService.DB_IO);
@@ -88,6 +89,7 @@ public class EmployeePayrollServiceTest {
 	//UC7 & UC8
 	@Test
 	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
+		log.log(Level.INFO, "JDBC Test UC7,8");
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readPayrollData(IOService.DB_IO);
 		EmployeePayrollService.newEmpPayrollDataObj = new EmployeePayrollData("Sakura Cha",5000000.0,LocalDate.now(),'F');

@@ -61,8 +61,11 @@ public class EmployeePayrollDBService {
 	public int writeEmployeePayrollToDB(String name, double salary, LocalDate startDate, char gender) {
 		int rowAffected = 0;
 		int empId = 0;
+		Connection connection = null;
 		String sql = String.format("INSERT INTO payroll_employee (name, salary, start, gender)"+ " VALUES('%s',%.2f,'%s','%s')", name, salary, Date.valueOf(startDate), gender);
-		try (Connection connection = this.getConnection()) {
+		try  {
+			connection = this.getConnection();
+			connection.setAutoCommit(false);
 			Statement statement = connection.createStatement();
 			rowAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
 			if (rowAffected == 1) {
@@ -82,11 +85,26 @@ public class EmployeePayrollDBService {
 					if (rowAffected == 1) 
 						EmployeePayrollService.newEmpPayrollDataObj.id = empId;
 				}  catch (SQLException ex) {
+					connection.rollback();
 					log.log(Level.SEVERE, "Failed : "+ex);
 				}
 			}
+			connection.commit();
 		} catch (SQLException | SecurityException | IOException e) {
 			log.log(Level.SEVERE, "Failed : "+e);
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				log.log(Level.SEVERE, "Failed : "+e1);
+			}
+		} finally {
+			if(connection!=null)
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					log.log(Level.SEVERE, "Failed : "+e);
+;
+				}
 		}
 		return rowAffected;
 	}
