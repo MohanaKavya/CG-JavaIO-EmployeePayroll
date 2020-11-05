@@ -3,6 +3,7 @@ package com.capgemini.javaio.employeepayroll;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -178,13 +179,37 @@ public class EmployeePayrollService {
 		}
 
 		/**
-		 * 
+		 * @param List of employee payroll data objects
 		 */
+		public void addEmployeeToPayrollWithThreads(List<EmployeePayrollData> employeePayrollDataList) {
+			Map<Integer, Boolean> employeeAdditionStatus = new HashMap<>();
+			employeePayrollDataList.forEach(employeePayrollData -> {
+				Runnable task = () -> {
+					employeeAdditionStatus.put(employeePayrollData.hashCode(), false);
+					log.info("Employee being added : " + Thread.currentThread().getName());
+					this.newEmpPayrollDataObj = employeePayrollData;
+					this.addEmpPayrollToDenormalisedDB();
+					employeeAdditionStatus.put(employeePayrollData.hashCode(), true);
+					log.info("Employee added : " + Thread.currentThread().getName());
+				};
+				Thread thread = new Thread(task, employeePayrollData.name);
+				thread.start();
+			});
+			while (employeeAdditionStatus.containsValue(false)) {
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+				}
+			}
+			log.info("" + this.employeePayrollList);
+			
+		}
+
 		private void addEmpPayrollToDenormalisedDB() {
 			try {
 				int rowsModified = employeePayrollDBService.writeEmployeePayrollToDenormalisedDB(newEmpPayrollDataObj.name, newEmpPayrollDataObj.salary,
 						newEmpPayrollDataObj.startDate, newEmpPayrollDataObj.gender);
-				if(rowsModified==1)
+				if(rowsModified>0)
 					this.employeePayrollList.add(newEmpPayrollDataObj);
 				else
 					throw new PayrollSystemException("Failed to Insert new rows", PayrollSystemException.ExceptionType.INSERT_INTO_DB_EXCEPTION);				

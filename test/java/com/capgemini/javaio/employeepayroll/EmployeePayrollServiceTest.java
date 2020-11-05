@@ -119,6 +119,7 @@ public class EmployeePayrollServiceTest {
 	//UC1 Threads
 	@Test
 	public void given6Employee_WhenAddedToDB_ShouldMatchEmployeeEnteries() {
+		 log.log(Level.INFO, "JDBC Test UC1,2 Threads");
 		EmployeePayrollData[] arrayOfEmps = {
 				new EmployeePayrollData(0, "Harvey Specter", 3000000.0, LocalDate.now(), 'M'),
 				new EmployeePayrollData(0, "Rachel Zane", 2000000.0, LocalDate.now(), 'F'),
@@ -130,7 +131,11 @@ public class EmployeePayrollServiceTest {
 		employeePayrollService.addEmployeesToPayroll(Arrays.asList(arrayOfEmps));
 		Instant end = Instant.now();
 		log.info("Duration without thread: " + Duration.between(start, end));
-		Assert.assertEquals(9, employeePayrollService.countEntries(IOService.DB_IO));
+		Instant threadStart = Instant.now();
+		employeePayrollService.addEmployeeToPayrollWithThreads(Arrays.asList(arrayOfEmps));
+		Instant threadEnd = Instant.now();
+		log.info("Duartion with Thread : "+Duration.between(threadStart, threadEnd));
+		Assert.assertEquals(13, employeePayrollService.countEntries(IOService.DB_IO));
 	}
 	
 }
