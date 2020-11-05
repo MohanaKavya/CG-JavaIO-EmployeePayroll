@@ -199,6 +199,30 @@ public class EmployeePayrollDBService {
 		return genderToAverageSalaryMap;
 	}
 	
+	public int deleteEmployeePayRollFromPayRollTable(String name) {
+		int employee_id = -1;
+		int rowsAffected = 0 ;
+		try (Connection con = this.getConnection()) {
+			employeePayrollDataPreparedStatement = con.prepareStatement("select id from payroll_employee where name=?");
+			employeePayrollDataPreparedStatement.setString(1, name);
+			ResultSet resultSet = employeePayrollDataPreparedStatement.executeQuery();
+			while (resultSet.next())
+				employee_id = resultSet.getInt("id");
+			employeePayrollDataPreparedStatement = con.prepareStatement("delete from payroll_details where id=?");
+			employeePayrollDataPreparedStatement.setInt(1, employee_id);
+			rowsAffected = employeePayrollDataPreparedStatement.executeUpdate();
+			if (rowsAffected > 0) {
+				employeePayrollDataPreparedStatement = con.prepareStatement("update payroll_employee set is_active=? where name=?");
+				employeePayrollDataPreparedStatement.setBoolean(1, false);
+				employeePayrollDataPreparedStatement.setString(2, name);
+				employeePayrollDataPreparedStatement.executeUpdate();
+			}
+		} catch (SQLException | SecurityException | IOException e) {
+			log.log(Level.SEVERE, "Failed : "+e);
+		}
+		return rowsAffected;
+	}
+	
 	/**
 	 * Used Dry Principle to Consolidate Code to read data from database
 	 * @param sql Query

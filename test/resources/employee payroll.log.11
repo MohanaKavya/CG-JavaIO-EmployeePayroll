@@ -2,30 +2,6 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-11-05T13:09:08.950001100Z</date>
-  <millis>1604581748950</millis>
-  <nanos>1100</nanos>
-  <sequence>26</sequence>
-  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
-  <level>INFO</level>
-  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
-  <method>getConnection</method>
-  <thread>1</thread>
-  <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
-</record>
-<record>
-  <date>2020-11-05T13:09:08.974934500Z</date>
-  <millis>1604581748974</millis>
-  <nanos>934500</nanos>
-  <sequence>27</sequence>
-  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
-  <level>INFO</level>
-  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
-  <method>getConnection</method>
-  <thread>1</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@1af2d44a</message>
-</record>
-<record>
   <date>2020-11-05T13:09:08.981915Z</date>
   <millis>1604581748981</millis>
   <nanos>915000</nanos>

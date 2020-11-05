@@ -1,6 +1,8 @@
 
 package com.capgemini.javaio.employeepayroll;
 
+import static org.junit.Assert.assertEquals;
+
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -47,7 +49,7 @@ public class EmployeePayrollServiceTest {
 		log.log(Level.INFO, "JDBC Test UC2");
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readPayrollData(IOService.DB_IO);
-		Assert.assertEquals(5, employeePayrollData.size());
+		Assert.assertEquals(6, employeePayrollData.size());
 	}
 	
 	//UC3 and UC4
@@ -72,7 +74,7 @@ public class EmployeePayrollServiceTest {
 		List<EmployeePayrollData> employeePayrollData1 = employeePayrollService.readEmployeePayrollDataForDateRange(startDate, endDate);
 		Assert.assertEquals(3, employeePayrollData1.size());
 	}
-	
+
 	//UC6
 	@Test
 	public void findSumAverageMinMaxCount_ofEmployees_ShouldMatchEmployeeCount() throws PayrollSystemException {
@@ -93,11 +95,22 @@ public class EmployeePayrollServiceTest {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readPayrollData(IOService.DB_IO);
 		String [] dept = {"Arts"}; 
-		EmployeePayrollService.newEmpPayrollDataObj = new EmployeePayrollData("Kishuma",5000000.0,LocalDate.of(2016, 07, 05),'F', dept);
+		EmployeePayrollService.newEmpPayrollDataObj = new EmployeePayrollData("Tsunade",5000000.0,LocalDate.of(2016, 05, 05),'F', dept);
 		employeePayrollService.writeEmployeePayrollData(IOService.DB_IO);
-		boolean result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Kishuma");
+		boolean result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Tsunade");
 		Assert.assertTrue(result);
 	}
 	
+	//UC12
+	@Test
+	public void givenEmployeeName_WhenDeleted_ShouldBeInSyncWithDB() {
+		log.log(Level.INFO, "JDBC Test UC12");
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readPayrollData(IOService.DB_IO);
+			employeePayrollService.deleteEmployeePayRollFromPayRollTableAndList("Minato");
+			EmployeePayrollData employee = employeePayrollService.employeePayrollList.stream()
+					.filter(emp -> emp.name.equals("Minato")).findFirst().orElse(null);
+		assertEquals(null, employee);
+	}
 	
 }

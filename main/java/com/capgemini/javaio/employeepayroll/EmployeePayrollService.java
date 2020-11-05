@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class EmployeePayrollService {
 	public enum IOService {
 		CONSOLE_IO, FILE_IO, DB_IO, REST_IO
 	}
-		private List<EmployeePayrollData> employeePayrollList;
+		public List<EmployeePayrollData> employeePayrollList;
 		private EmployeePayrollDBService employeePayrollDBService;
 		private Map<String, Double> genderToAverageSalaryMap;
 		public static EmployeePayrollData newEmpPayrollDataObj;
@@ -82,8 +83,8 @@ public class EmployeePayrollService {
 		 */
 		public void updateEmployeeSalary(String name, double salary) {
 			try {
-				int[] numOfRowsModified = employeePayrollDBService.updateEmployeeData(name, salary);
-				if (numOfRowsModified == null) 
+				int numOfRowsModified = employeePayrollDBService.updateEmployeeData(name, salary);
+				if (numOfRowsModified == 0) 
 					throw new PayrollSystemException("no rows updated", PayrollSystemException.ExceptionType.UPDATE_DATABASE_EXCEPTION);
 				EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
 				if (employeePayrollData != null)
@@ -164,6 +165,22 @@ public class EmployeePayrollService {
 			} catch (PayrollSystemException e) {
 				System.out.println(e.getMessage());
 			}	
+		}
+		
+		// delete employee pay roll from payroll table and from list
+		public void deleteEmployeePayRollFromPayRollTableAndList(String name) {
+			try {
+				int rowsModified = employeePayrollDBService.deleteEmployeePayRollFromPayRollTable(name);
+				System.out.println("rows :"+rowsModified);
+				if(rowsModified > 0) {
+				this.employeePayrollList = employeePayrollList.stream().filter(emp -> !(emp.name.equals(name))).collect(Collectors.toList());
+				System.out.println(employeePayrollList);
+				}
+				else
+					throw new PayrollSystemException("Failed to Delete rows", PayrollSystemException.ExceptionType.REMOVE_RECORDS_FROM_DB_EXCEPTION);	
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
 	
 }
