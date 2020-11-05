@@ -3,6 +3,8 @@ package com.capgemini.javaio.employeepayroll;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -43,74 +45,92 @@ public class EmployeePayrollServiceTest {
 		Assert.assertEquals(3, entries);
 	}
 	
-	//UC2
-	@Test
-	public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
-		log.log(Level.INFO, "JDBC Test UC2");
-		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readPayrollData(IOService.DB_IO);
-		Assert.assertEquals(6, employeePayrollData.size());
-	}
+	/*
+	 * //UC2
+	 * 
+	 * @Test public void
+	 * givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
+	 * log.log(Level.INFO, "JDBC Test UC2"); EmployeePayrollService
+	 * employeePayrollService = new EmployeePayrollService();
+	 * List<EmployeePayrollData> employeePayrollData =
+	 * employeePayrollService.readPayrollData(IOService.DB_IO);
+	 * Assert.assertEquals(6, employeePayrollData.size()); }
+	 * 
+	 * //UC3 and UC4
+	 * 
+	 * @Test public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB()
+	 * throws PayrollSystemException { log.log(Level.INFO, "JDBC Test UC3 and UC4");
+	 * EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+	 * employeePayrollService.readPayrollData(IOService.DB_IO);
+	 * employeePayrollService.updateEmployeeSalary("kakashi",7000000.0); boolean
+	 * result = employeePayrollService.checkEmployeePayrollInSyncWithDB("kakashi");
+	 * Assert.assertTrue(result); }
+	 * 
+	 * //UC5
+	 * 
+	 * @Test public void givenDateRange_WhenRetrieved_ShouldMatchEmployeeCount()
+	 * throws PayrollSystemException { log.log(Level.INFO, "JDBC Test UC5");
+	 * EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+	 * employeePayrollService.readPayrollData(IOService.DB_IO); LocalDate startDate
+	 * = LocalDate.of(2019, 01, 01); LocalDate endDate = LocalDate.now();
+	 * List<EmployeePayrollData> employeePayrollData1 =
+	 * employeePayrollService.readEmployeePayrollDataForDateRange(startDate,
+	 * endDate); Assert.assertEquals(3, employeePayrollData1.size()); }
+	 * 
+	 * //UC6
+	 * 
+	 * @Test public void
+	 * findSumAverageMinMaxCount_ofEmployees_ShouldMatchEmployeeCount() throws
+	 * PayrollSystemException { log.log(Level.INFO, "JDBC Test UC6");
+	 * EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+	 * employeePayrollService.readPayrollData(IOService.DB_IO); Map<String, Double>
+	 * genderToAverageSalaryMap =
+	 * employeePayrollService.getAvgSalary(IOService.DB_IO); Double avgSalaryMale =
+	 * 6000000.0; Assert.assertEquals(avgSalaryMale,
+	 * genderToAverageSalaryMap.get("M")); Double avgSalaryFemale = 5000000.0;
+	 * Assert.assertEquals(avgSalaryFemale, genderToAverageSalaryMap.get("F")); }
+	 * 
+	 * //UC7 & UC8
+	 * 
+	 * @Test public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
+	 * log.log(Level.INFO, "JDBC Test UC7,8,9"); EmployeePayrollService
+	 * employeePayrollService = new EmployeePayrollService();
+	 * employeePayrollService.readPayrollData(IOService.DB_IO); String [] dept =
+	 * {"Arts"}; EmployeePayrollService.newEmpPayrollDataObj = new
+	 * EmployeePayrollData("Tsunade",5000000.0,LocalDate.of(2016, 05, 05),'F',
+	 * dept); employeePayrollService.writeEmployeePayrollData(IOService.DB_IO);
+	 * boolean
+	 * result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Tsunade");
+	 * Assert.assertTrue(result); }
+	 * 
+	 * //UC12
+	 * 
+	 * @Test public void givenEmployeeName_WhenDeleted_ShouldBeInSyncWithDB() {
+	 * log.log(Level.INFO, "JDBC Test UC12"); EmployeePayrollService
+	 * employeePayrollService = new EmployeePayrollService();
+	 * employeePayrollService.readPayrollData(IOService.DB_IO);
+	 * employeePayrollService.deleteEmployeePayRollFromPayRollTableAndList("Minato")
+	 * ; EmployeePayrollData employee =
+	 * employeePayrollService.employeePayrollList.stream() .filter(emp ->
+	 * emp.name.equals("Minato")).findFirst().orElse(null); assertEquals(null,
+	 * employee); }
+	 */
 	
-	//UC3 and UC4
+	//UC1 Threads
 	@Test
-	public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWithDB() throws PayrollSystemException {
-		log.log(Level.INFO, "JDBC Test UC3 and UC4");
+	public void given6Employee_WhenAddedToDB_ShouldMatchEmployeeEnteries() {
+		EmployeePayrollData[] arrayOfEmps = {
+				new EmployeePayrollData(0, "Harvey Specter", 3000000.0, LocalDate.now(), 'M'),
+				new EmployeePayrollData(0, "Rachel Zane", 2000000.0, LocalDate.now(), 'F'),
+				new EmployeePayrollData(0, "Louis Litt", 2000000.0, LocalDate.now(), 'M'),
+				new EmployeePayrollData(0, "Mike Ross", 2000000.0, LocalDate.now(), 'M') };
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readPayrollData(IOService.DB_IO);
-		employeePayrollService.updateEmployeeSalary("kakashi",7000000.0);
-		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("kakashi");
-		Assert.assertTrue(result);
-	}
-	
-	//UC5
-	@Test
-	public void givenDateRange_WhenRetrieved_ShouldMatchEmployeeCount() throws PayrollSystemException {
-		log.log(Level.INFO, "JDBC Test UC5");
-		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-		employeePayrollService.readPayrollData(IOService.DB_IO);
-		LocalDate startDate = LocalDate.of(2019, 01, 01);
-		LocalDate endDate = LocalDate.now();
-		List<EmployeePayrollData> employeePayrollData1 = employeePayrollService.readEmployeePayrollDataForDateRange(startDate, endDate);
-		Assert.assertEquals(3, employeePayrollData1.size());
-	}
-
-	//UC6
-	@Test
-	public void findSumAverageMinMaxCount_ofEmployees_ShouldMatchEmployeeCount() throws PayrollSystemException {
-		log.log(Level.INFO, "JDBC Test UC6");
-		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-		employeePayrollService.readPayrollData(IOService.DB_IO);
-		Map<String, Double> genderToAverageSalaryMap = employeePayrollService.getAvgSalary(IOService.DB_IO);
-		Double avgSalaryMale = 6000000.0;
-		Assert.assertEquals(avgSalaryMale, genderToAverageSalaryMap.get("M"));
-		Double avgSalaryFemale = 5000000.0;
-		Assert.assertEquals(avgSalaryFemale, genderToAverageSalaryMap.get("F"));
-	}
-	
-	//UC7 & UC8
-	@Test
-	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
-		log.log(Level.INFO, "JDBC Test UC7,8,9");
-		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-		employeePayrollService.readPayrollData(IOService.DB_IO);
-		String [] dept = {"Arts"}; 
-		EmployeePayrollService.newEmpPayrollDataObj = new EmployeePayrollData("Tsunade",5000000.0,LocalDate.of(2016, 05, 05),'F', dept);
-		employeePayrollService.writeEmployeePayrollData(IOService.DB_IO);
-		boolean result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Tsunade");
-		Assert.assertTrue(result);
-	}
-	
-	//UC12
-	@Test
-	public void givenEmployeeName_WhenDeleted_ShouldBeInSyncWithDB() {
-		log.log(Level.INFO, "JDBC Test UC12");
-		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
-		employeePayrollService.readPayrollData(IOService.DB_IO);
-			employeePayrollService.deleteEmployeePayRollFromPayRollTableAndList("Minato");
-			EmployeePayrollData employee = employeePayrollService.employeePayrollList.stream()
-					.filter(emp -> emp.name.equals("Minato")).findFirst().orElse(null);
-		assertEquals(null, employee);
+		Instant start = Instant.now();
+		employeePayrollService.addEmployeesToPayroll(Arrays.asList(arrayOfEmps));
+		Instant end = Instant.now();
+		log.info("Duration without thread: " + Duration.between(start, end));
+		Assert.assertEquals(9, employeePayrollService.countEntries(IOService.DB_IO));
 	}
 	
 }

@@ -1,13 +1,19 @@
 package com.capgemini.javaio.employeepayroll;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class EmployeePayrollService {
+	private static Logger log = Logger.getLogger(EmployeePayrollService.class.getName());
 	public enum IOService {
 		CONSOLE_IO, FILE_IO, DB_IO, REST_IO
 	}
@@ -17,7 +23,7 @@ public class EmployeePayrollService {
 		public static EmployeePayrollData newEmpPayrollDataObj;
 
 		public EmployeePayrollService() {
-			employeePayrollDBService=EmployeePayrollDBService.getInstance();
+			employeePayrollDBService = EmployeePayrollDBService.getInstance();
 		}
 
 		public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
@@ -26,6 +32,14 @@ public class EmployeePayrollService {
 		}
 
 		public static void main(String[] args) {
+			Handler fileHandler = null;
+			try {
+			fileHandler = new FileHandler("C:\\Users\\Mohana Kavya\\eclipse-workspace\\JavaIO_EmployeePayRoll\\src\\test\\resources\\payroll service.log");
+			fileHandler.setLevel(Level.ALL);
+			log.addHandler(fileHandler);
+			} catch (SecurityException | IOException e) {
+				log.log(Level.SEVERE, "Failed : "+e);
+			}
 			ArrayList<EmployeePayrollData> employeePayrollList = new ArrayList<>();
 			EmployeePayrollService employeePayrollService = new EmployeePayrollService(employeePayrollList);
 			Scanner consoleInputReader = new Scanner(System.in);
@@ -60,6 +74,8 @@ public class EmployeePayrollService {
 		public long countEntries(IOService ioService) {
 			if(ioService.equals(IOService.FILE_IO))
 				return new EmployeePayrollFileIOService().countEntries();
+			if(ioService.equals(IOService.DB_IO))
+				return this.employeePayrollList.size();
 			return 0;
 		}
 
@@ -151,6 +167,32 @@ public class EmployeePayrollService {
 			return genderToAverageSalaryMap;
 		}
 		
+		public void addEmployeesToPayroll(List<EmployeePayrollData> employeePayrollDataList) {
+			employeePayrollDataList.forEach(employeePayrollData -> {
+				log.info("Employee being added : " + employeePayrollData.name);
+					this.newEmpPayrollDataObj = employeePayrollData;
+					this.addEmpPayrollToDenormalisedDB();
+				log.info("Employee added : " + employeePayrollData.name);
+			});
+			log.info(" " + this.employeePayrollList);
+		}
+
+		/**
+		 * 
+		 */
+		private void addEmpPayrollToDenormalisedDB() {
+			try {
+				int rowsModified = employeePayrollDBService.writeEmployeePayrollToDenormalisedDB(newEmpPayrollDataObj.name, newEmpPayrollDataObj.salary,
+						newEmpPayrollDataObj.startDate, newEmpPayrollDataObj.gender);
+				if(rowsModified==1)
+					this.employeePayrollList.add(newEmpPayrollDataObj);
+				else
+					throw new PayrollSystemException("Failed to Insert new rows", PayrollSystemException.ExceptionType.INSERT_INTO_DB_EXCEPTION);				
+			} catch (PayrollSystemException e) {
+				System.out.println(e.getMessage());
+			}	
+		}
+
 		/**
 		 * Insert new Record into Database, If Successful should add new Employee Payroll data into List
 		 */

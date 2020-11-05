@@ -2,10 +2,10 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-11-05T13:09:08.891158400Z</date>
-  <millis>1604581748891</millis>
-  <nanos>158400</nanos>
-  <sequence>23</sequence>
+  <date>2020-11-05T16:49:21.943110700Z</date>
+  <millis>1604594961943</millis>
+  <nanos>110700</nanos>
+  <sequence>0</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
@@ -14,22 +14,22 @@
   <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-05T13:09:08.940028900Z</date>
-  <millis>1604581748940</millis>
-  <nanos>28900</nanos>
-  <sequence>24</sequence>
+  <date>2020-11-05T16:49:22.638253500Z</date>
+  <millis>1604594962638</millis>
+  <nanos>253500</nanos>
+  <sequence>1</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@4738a206</message>
+  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@77eca502</message>
 </record>
 <record>
-  <date>2020-11-05T13:09:08.950001100Z</date>
-  <millis>1604581748950</millis>
-  <nanos>1100</nanos>
-  <sequence>26</sequence>
+  <date>2020-11-05T16:49:22.707067900Z</date>
+  <millis>1604594962707</millis>
+  <nanos>67900</nanos>
+  <sequence>3</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
@@ -38,22 +38,22 @@
   <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-05T13:09:08.974934500Z</date>
-  <millis>1604581748974</millis>
-  <nanos>934500</nanos>
-  <sequence>27</sequence>
+  <date>2020-11-05T16:49:22.759939600Z</date>
+  <millis>1604594962759</millis>
+  <nanos>939600</nanos>
+  <sequence>4</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@1af2d44a</message>
+  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@6d4e5011</message>
 </record>
 <record>
-  <date>2020-11-05T13:09:08.981915Z</date>
-  <millis>1604581748981</millis>
-  <nanos>915000</nanos>
-  <sequence>28</sequence>
+  <date>2020-11-05T16:49:22.772890900Z</date>
+  <millis>1604594962772</millis>
+  <nanos>890900</nanos>
+  <sequence>7</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
@@ -62,22 +62,22 @@
   <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-05T13:09:09.006848800Z</date>
-  <millis>1604581749006</millis>
-  <nanos>848800</nanos>
-  <sequence>29</sequence>
+  <date>2020-11-05T16:49:22.821760600Z</date>
+  <millis>1604594962821</millis>
+  <nanos>760600</nanos>
+  <sequence>8</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@58695725</message>
+  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@25084a1e</message>
 </record>
 <record>
-  <date>2020-11-05T13:09:09.012833200Z</date>
-  <millis>1604581749012</millis>
-  <nanos>833200</nanos>
-  <sequence>30</sequence>
+  <date>2020-11-05T16:49:22.830737Z</date>
+  <millis>1604594962830</millis>
+  <nanos>737000</nanos>
+  <sequence>11</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
@@ -86,15 +86,39 @@
   <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-05T13:09:09.037766500Z</date>
-  <millis>1604581749037</millis>
-  <nanos>766500</nanos>
-  <sequence>31</sequence>
+  <date>2020-11-05T16:49:22.871626500Z</date>
+  <millis>1604594962871</millis>
+  <nanos>626500</nanos>
+  <sequence>12</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@7bd4937b</message>
+  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@71def8f8</message>
+</record>
+<record>
+  <date>2020-11-05T16:49:22.880603500Z</date>
+  <millis>1604594962880</millis>
+  <nanos>603500</nanos>
+  <sequence>15</sequence>
+  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
+  <level>INFO</level>
+  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
+  <method>getConnection</method>
+  <thread>1</thread>
+  <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
+</record>
+<record>
+  <date>2020-11-05T16:49:22.919506100Z</date>
+  <millis>1604594962919</millis>
+  <nanos>506100</nanos>
+  <sequence>16</sequence>
+  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
+  <level>INFO</level>
+  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
+  <method>getConnection</method>
+  <thread>1</thread>
+  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@5562c41e</message>
 </record>
 </log>

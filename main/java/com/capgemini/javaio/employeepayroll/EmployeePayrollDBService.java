@@ -37,6 +37,14 @@ public class EmployeePayrollDBService {
 	public static EmployeePayrollDBService getInstance() {
 		if (employeePayrollDBService == null) {
 			employeePayrollDBService = new EmployeePayrollDBService();
+			Handler fileHandler = null;
+			try {
+			fileHandler = new FileHandler("C:\\Users\\Mohana Kavya\\eclipse-workspace\\JavaIO_EmployeePayRoll\\src\\test\\resources\\payroll DB Service.log");
+			fileHandler.setLevel(Level.ALL);
+			log.addHandler(fileHandler);
+			} catch (SecurityException | IOException e) {
+				log.log(Level.SEVERE, "Failed : "+e);
+			}
 		}
 		return employeePayrollDBService;
 	}
@@ -48,9 +56,37 @@ public class EmployeePayrollDBService {
 	public List<EmployeePayrollData> readData() {
 		String sql = " select e.id, e.name, e.salary, e.start, e.gender, d.department"
 				+ " from payroll_employee e"
-				+ " inner join emp_department d on e.id = d.id;";	
+				+ " inner join emp_department d on e.id = d.id where e.is_active = 1;";	
 		return this.getEmployeePayrollDataFromDB(sql);	
 	}
+
+	/**
+	 * @param name
+	 * @param salary
+	 * @param startDate
+	 * @param gender
+	 * @return
+	 */
+	public int writeEmployeePayrollToDenormalisedDB(String name, double salary, LocalDate startDate, char gender) {
+		int employeeId = -1;
+		int rowAffected = 0;
+		String sql = String.format(
+				"INSERT INTO payroll_employee(name,gender,salary,start) VALUES ('%s','%s','%s','%s')", name, gender,
+				salary, Date.valueOf(startDate));
+		try (Connection connection = this.getConnection();) {
+			PreparedStatement preparedstatement = connection.prepareStatement(sql);
+			rowAffected = preparedstatement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+			if (rowAffected == 1) {
+				ResultSet resultSet = preparedstatement.getGeneratedKeys();
+				if (resultSet.next())
+					EmployeePayrollService.newEmpPayrollDataObj.id = resultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return rowAffected;
+	}
+
 
 	/**
 	 * To write into Database
@@ -68,7 +104,7 @@ public class EmployeePayrollDBService {
 		try {
 			connection = this.getConnection();
 			connection.setAutoCommit(false);
-		} catch (SecurityException | IOException | SQLException e2) {
+		} catch (SecurityException | SQLException e2) {
 			log.log(Level.SEVERE, "Failed : "+e2);
 		}
 		try  {
@@ -149,7 +185,7 @@ public class EmployeePayrollDBService {
 			employeePayrollDataPreparedStatement.setDouble(1, salary);
 			employeePayrollDataPreparedStatement.setString(2, name);
 			return employeePayrollDataPreparedStatement.executeUpdate();
-		} catch (SQLException | SecurityException | IOException e) {
+		} catch (SQLException | SecurityException e) {
 			log.log(Level.SEVERE, "Failed : "+e);
 		}
 		return 0;
@@ -175,7 +211,7 @@ public class EmployeePayrollDBService {
 	public List<EmployeePayrollData> readEmpPayrollDBInGivenDateRange(LocalDate startDate, LocalDate endDate) {
 		String sql = String.format("select e.id, e.name, e.salary, e.start, e.gender, d.department"
 				+ "	from payroll_employee e inner join"
-				+ "	emp_department d on e.id = d.id where start between '%s' AND '%s';", Date.valueOf(startDate), Date.valueOf(endDate));
+				+ "	emp_department d on e.id = d.id where start between '%s' AND '%s' and e.is_active = 1;", Date.valueOf(startDate), Date.valueOf(endDate));
 		return this.getEmployeePayrollDataFromDB(sql);
 	}
 
@@ -183,7 +219,7 @@ public class EmployeePayrollDBService {
 	 * @return Map Key : Gender, Value is Average of Salaries
 	 */
 	public Map<String, Double> getAverageSalaryGroupByGender() {
-		String sql = "SELECT gender, AVG(salary) as avg_salary FROM payroll_employee group by gender;";
+		String sql = "SELECT gender, AVG(salary) as avg_salary FROM payroll_employee where e.is_active = 1 group by gender;";
 		Map<String, Double> genderToAverageSalaryMap = new HashMap<>();
 		try (Connection connection = this.getConnection()) {
 			Statement statement = connection.createStatement();
@@ -193,7 +229,7 @@ public class EmployeePayrollDBService {
 				double salary = result.getDouble("avg_salary");
 				genderToAverageSalaryMap.put(gender, salary);
 			}
-		} catch (SQLException | SecurityException | IOException e) {
+		} catch (SQLException | SecurityException e) {
 			log.log(Level.SEVERE, "Failed : "+e);
 		}
 		return genderToAverageSalaryMap;
@@ -217,7 +253,7 @@ public class EmployeePayrollDBService {
 				employeePayrollDataPreparedStatement.setString(2, name);
 				employeePayrollDataPreparedStatement.executeUpdate();
 			}
-		} catch (SQLException | SecurityException | IOException e) {
+		} catch (SQLException | SecurityException e) {
 			log.log(Level.SEVERE, "Failed : "+e);
 		}
 		return rowsAffected;
@@ -235,7 +271,7 @@ public class EmployeePayrollDBService {
 			employeePayrollDataPreparedStatement = connection.prepareStatement(sql);
 			ResultSet result = employeePayrollDataPreparedStatement.executeQuery();
 			employeePayrollDataList = this.getEmployeePayrollData(result);
-		} catch (SQLException | SecurityException | IOException e) {
+		} catch (SQLException | SecurityException e) {
 			log.log(Level.SEVERE, "Failed : "+e);
 		}
 		return employeePayrollDataList;
@@ -280,17 +316,11 @@ public class EmployeePayrollDBService {
 	 * @throws SecurityException 
 	 * @throws SQLException 
 	 */
-	private Connection getConnection() throws SecurityException, IOException, SQLException {
-
+	private Connection getConnection() throws SQLException {
 		String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service";
 		String user = "root";
 		String password = "L3al!lhope"; 
-		// Create Connection object and establish connection with database	
-		Handler fileHandler = null;
 		Connection connection = null;
-		fileHandler = new FileHandler("C:\\Users\\Mohana Kavya\\eclipse-workspace\\JavaIO_EmployeePayRoll\\src\\test\\resources\\employee payroll.log");
-		fileHandler.setLevel(Level.ALL);
-		log.addHandler(fileHandler);
 		log.log(Level.INFO, "Connecting to database :"+jdbcURL);
 		connection = DriverManager.getConnection(jdbcURL, user, password);
 		log.log(Level.INFO, "Connection Succesfull : "+connection);
