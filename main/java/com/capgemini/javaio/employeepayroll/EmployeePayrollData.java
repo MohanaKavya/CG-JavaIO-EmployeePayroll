@@ -8,6 +8,7 @@ public class EmployeePayrollData {
 	public double salary;
 	public LocalDate startDate;
 	public char gender;
+	public String [] departments;
 
 	public EmployeePayrollData(Integer id, String name, Double salary) {
 		this.id = id;
@@ -24,12 +25,18 @@ public class EmployeePayrollData {
 		this(id, name, salary, startDate);
 		this.gender = gender;
 	}
+	
+	public EmployeePayrollData(int id, String name, double salary, LocalDate startDate, char gender, String[] departments) {
+		this(id, name, salary, startDate, gender);
+		this.departments = departments;
+	}
 
-	public EmployeePayrollData(String name, double salary, LocalDate date, char gender) {
+	public EmployeePayrollData(String name, double salary, LocalDate date, char gender, String[] departments ) {
 		this.name = name;
 		this.salary = salary;
 		this.startDate = date;
 		this.gender = gender;
+		this.departments = departments;
 	}
 
 	@Override

@@ -46,7 +46,9 @@ public class EmployeePayrollDBService {
 	 * @return List of Employee Payroll objects
 	 */
 	public List<EmployeePayrollData> readData() {
-		String sql = "SELECT * FROM payroll_employee";	
+		String sql = " select e.id, e.name, e.salary, e.start, e.gender, d.department"
+				+ " from payroll_employee e"
+				+ " inner join emp_department d on e.id = d.id;";	
 		return this.getEmployeePayrollDataFromDB(sql);	
 	}
 
@@ -58,14 +60,18 @@ public class EmployeePayrollDBService {
 	 * @param gender
 	 * @return number of rows modified
 	 */
-	public int writeEmployeePayrollToDB(String name, double salary, LocalDate startDate, char gender) {
+	public int writeEmployeePayrollToDB(String name, double salary, LocalDate startDate, char gender, String[] departments) {
 		int rowAffected = 0;
 		int empId = 0;
 		Connection connection = null;
 		String sql = String.format("INSERT INTO payroll_employee (name, salary, start, gender)"+ " VALUES('%s',%.2f,'%s','%s')", name, salary, Date.valueOf(startDate), gender);
-		try  {
+		try {
 			connection = this.getConnection();
 			connection.setAutoCommit(false);
+		} catch (SecurityException | IOException | SQLException e2) {
+			log.log(Level.SEVERE, "Failed : "+e2);
+		}
+		try  {
 			Statement statement = connection.createStatement();
 			rowAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
 			if (rowAffected == 1) {
@@ -89,21 +95,42 @@ public class EmployeePayrollDBService {
 					log.log(Level.SEVERE, "Failed : "+ex);
 				}
 			}
-			connection.commit();
-		} catch (SQLException | SecurityException | IOException e) {
+		} catch (SQLException | SecurityException e) {
 			log.log(Level.SEVERE, "Failed : "+e);
 			try {
 				connection.rollback();
 			} catch (SQLException e1) {
 				log.log(Level.SEVERE, "Failed : "+e1);
 			}
-		} finally {
+		} 
+		try {
+			for(String dept : departments) {
+			String sql1 = String.format("insert into emp_department (id,department) values ('%s', '%s')", empId, dept);
+			Statement statement = connection.createStatement();
+			rowAffected = statement.executeUpdate(sql1);
+			}
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, "Failed : "+e);
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				log.log(Level.SEVERE, "Failed : "+e1);
+			}
+		}
+		
+		try{
+			try {
+				connection.commit();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+			finally {
 			if(connection!=null)
 				try {
 					connection.close();
 				} catch (SQLException e) {
 					log.log(Level.SEVERE, "Failed : "+e);
-;
 				}
 		}
 		return rowAffected;
@@ -134,7 +161,9 @@ public class EmployeePayrollDBService {
 	 * @return List of EmployePayrollData objects
 	 */
 	public List<EmployeePayrollData> getEmployeePayrollDataByName(String name) {
-		String sql = String.format("SELECT * FROM payroll_employee WHERE name='%s';", name);
+		String sql = String.format("select e.id, e.name, e.salary, e.start, e.gender, d.department"
+				+" from payroll_employee e inner join"
+				+" emp_department d on e.id = d.id WHERE name='%s';", name);
 		return this.getEmployeePayrollDataFromDB(sql);
 	}
 
@@ -144,7 +173,9 @@ public class EmployeePayrollDBService {
 	 * @return
 	 */
 	public List<EmployeePayrollData> readEmpPayrollDBInGivenDateRange(LocalDate startDate, LocalDate endDate) {
-		String sql = String.format("SELECT * FROM payroll_employee where start between '%s' AND '%s';", Date.valueOf(startDate), Date.valueOf(endDate));
+		String sql = String.format("select e.id, e.name, e.salary, e.start, e.gender, d.department"
+				+ "	from payroll_employee e inner join"
+				+ "	emp_department d on e.id = d.id where start between '%s' AND '%s';", Date.valueOf(startDate), Date.valueOf(endDate));
 		return this.getEmployeePayrollDataFromDB(sql);
 	}
 
@@ -193,14 +224,27 @@ public class EmployeePayrollDBService {
 	 * @throws SQLException 
 	 */
 	private List<EmployeePayrollData> getEmployeePayrollData(ResultSet result) throws SQLException {
-		List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
+		int id_prev = 0;
+		List<EmployeePayrollData> employeePayrollList = new ArrayList();
+		List<String> department_list = new ArrayList<>();
 			while (result.next()) {
 				int id = result.getInt("id");
 				String name = result.getString("name");
 				double Salary = result.getDouble("salary");
 				LocalDate startDate = result.getDate("start").toLocalDate();
 				char gender = result.getString("gender").charAt(0);
-				employeePayrollList.add(new EmployeePayrollData(id, name, Salary, startDate, gender));
+				String department = result.getString("department");
+				if(id!=id_prev) {
+					department_list = new ArrayList<>();
+					department_list.add(department);
+					employeePayrollList.add(new EmployeePayrollData(id, name, Salary, startDate, gender, department_list.toArray(new String[0])));
+					id_prev = id;
+				}
+				else {
+					int index = employeePayrollList.indexOf(new EmployeePayrollData(id, name, Salary, startDate, gender, department_list.toArray(new String[0])));
+					department_list.add(department);	
+					employeePayrollList.set(index, new EmployeePayrollData(id, name, Salary, startDate, gender, department_list.toArray(new String[0])));
+				}
 			}
 		return employeePayrollList;
 	}

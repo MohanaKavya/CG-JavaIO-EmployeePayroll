@@ -47,7 +47,7 @@ public class EmployeePayrollServiceTest {
 		log.log(Level.INFO, "JDBC Test UC2");
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readPayrollData(IOService.DB_IO);
-		Assert.assertEquals(4, employeePayrollData.size());
+		Assert.assertEquals(5, employeePayrollData.size());
 	}
 	
 	//UC3 and UC4
@@ -56,8 +56,8 @@ public class EmployeePayrollServiceTest {
 		log.log(Level.INFO, "JDBC Test UC3 and UC4");
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readPayrollData(IOService.DB_IO);
-		employeePayrollService.updateEmployeeSalary("Terissa",3000000.0);
-		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("Terissa");
+		employeePayrollService.updateEmployeeSalary("kakashi",7000000.0);
+		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB("kakashi");
 		Assert.assertTrue(result);
 	}
 	
@@ -80,21 +80,22 @@ public class EmployeePayrollServiceTest {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readPayrollData(IOService.DB_IO);
 		Map<String, Double> genderToAverageSalaryMap = employeePayrollService.getAvgSalary(IOService.DB_IO);
-		Double avgSalaryMale = 3500.0;
+		Double avgSalaryMale = 6000000.0;
 		Assert.assertEquals(avgSalaryMale, genderToAverageSalaryMap.get("M"));
-		Double avgSalaryFemale = 4000000.0;
+		Double avgSalaryFemale = 5000000.0;
 		Assert.assertEquals(avgSalaryFemale, genderToAverageSalaryMap.get("F"));
 	}
 	
 	//UC7 & UC8
 	@Test
 	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
-		log.log(Level.INFO, "JDBC Test UC7,8");
+		log.log(Level.INFO, "JDBC Test UC7,8,9");
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readPayrollData(IOService.DB_IO);
-		EmployeePayrollService.newEmpPayrollDataObj = new EmployeePayrollData("Sakura Cha",5000000.0,LocalDate.now(),'F');
+		String [] dept = {"Arts"}; 
+		EmployeePayrollService.newEmpPayrollDataObj = new EmployeePayrollData("Kishuma",5000000.0,LocalDate.of(2016, 07, 05),'F', dept);
 		employeePayrollService.writeEmployeePayrollData(IOService.DB_IO);
-		boolean result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Sakura Cha");
+		boolean result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Kishuma");
 		Assert.assertTrue(result);
 	}
 	

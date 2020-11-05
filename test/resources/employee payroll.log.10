@@ -2,10 +2,10 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-11-04T19:40:00.783559100Z</date>
-  <millis>1604518800783</millis>
-  <nanos>559100</nanos>
-  <sequence>25</sequence>
+  <date>2020-11-05T11:08:47.917377Z</date>
+  <millis>1604574527917</millis>
+  <nanos>377000</nanos>
+  <sequence>26</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
@@ -14,15 +14,15 @@
   <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-04T19:40:00.819463Z</date>
-  <millis>1604518800819</millis>
-  <nanos>463000</nanos>
-  <sequence>26</sequence>
+  <date>2020-11-05T11:08:47.951278500Z</date>
+  <millis>1604574527951</millis>
+  <nanos>278500</nanos>
+  <sequence>27</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@6cd28fa7</message>
+  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@7c711375</message>
 </record>
 </log>

@@ -82,8 +82,8 @@ public class EmployeePayrollService {
 		 */
 		public void updateEmployeeSalary(String name, double salary) {
 			try {
-				int numOfRowsModified = employeePayrollDBService.updateEmployeeData(name, salary);
-				if (numOfRowsModified == 0) 
+				int[] numOfRowsModified = employeePayrollDBService.updateEmployeeData(name, salary);
+				if (numOfRowsModified == null) 
 					throw new PayrollSystemException("no rows updated", PayrollSystemException.ExceptionType.UPDATE_DATABASE_EXCEPTION);
 				EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
 				if (employeePayrollData != null)
@@ -156,7 +156,7 @@ public class EmployeePayrollService {
 		private void addEmpPayrollToDB() {
 			try {
 				int rowsModified = employeePayrollDBService.writeEmployeePayrollToDB(newEmpPayrollDataObj.name, newEmpPayrollDataObj.salary,
-						newEmpPayrollDataObj.startDate, newEmpPayrollDataObj.gender);
+						newEmpPayrollDataObj.startDate, newEmpPayrollDataObj.gender, newEmpPayrollDataObj.departments);
 				if(rowsModified==1)
 					this.employeePayrollList.add(newEmpPayrollDataObj);
 				else
