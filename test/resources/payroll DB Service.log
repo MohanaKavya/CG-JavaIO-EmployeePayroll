@@ -2,219 +2,219 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-11-05T19:50:25.387490700Z</date>
-  <millis>1604605825387</millis>
-  <nanos>490700</nanos>
+  <date>2020-11-05T21:08:27.618618600Z</date>
+  <millis>1604610507618</millis>
+  <nanos>618600</nanos>
   <sequence>1</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
+  <message>Processing Thread : main ID : 1, Connecting to database : jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.081277500Z</date>
-  <millis>1604605826081</millis>
-  <nanos>277500</nanos>
+  <date>2020-11-05T21:08:28.560081800Z</date>
+  <millis>1604610508560</millis>
+  <nanos>81800</nanos>
   <sequence>2</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@77eca502</message>
+  <message>Processing Thread : main ID : 1 Connection is successful! com.mysql.cj.jdbc.ConnectionImpl@77eca502</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.148057300Z</date>
-  <millis>1604605826148</millis>
-  <nanos>57300</nanos>
+  <date>2020-11-05T21:08:28.651838500Z</date>
+  <millis>1604610508651</millis>
+  <nanos>838500</nanos>
   <sequence>4</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
+  <message>Processing Thread : main ID : 2, Connecting to database : jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.197055Z</date>
-  <millis>1604605826197</millis>
-  <nanos>55000</nanos>
+  <date>2020-11-05T21:08:28.689735200Z</date>
+  <millis>1604610508689</millis>
+  <nanos>735200</nanos>
   <sequence>5</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@6d4e5011</message>
+  <message>Processing Thread : main ID : 2 Connection is successful! com.mysql.cj.jdbc.ConnectionImpl@6d4e5011</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.211554500Z</date>
-  <millis>1604605826211</millis>
-  <nanos>554500</nanos>
+  <date>2020-11-05T21:08:28.699709200Z</date>
+  <millis>1604610508699</millis>
+  <nanos>709200</nanos>
   <sequence>8</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
+  <message>Processing Thread : main ID : 3, Connecting to database : jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.260756300Z</date>
-  <millis>1604605826260</millis>
-  <nanos>756300</nanos>
+  <date>2020-11-05T21:08:28.745586100Z</date>
+  <millis>1604610508745</millis>
+  <nanos>586100</nanos>
   <sequence>9</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@25084a1e</message>
+  <message>Processing Thread : main ID : 3 Connection is successful! com.mysql.cj.jdbc.ConnectionImpl@25084a1e</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.269737900Z</date>
-  <millis>1604605826269</millis>
-  <nanos>737900</nanos>
+  <date>2020-11-05T21:08:28.758550800Z</date>
+  <millis>1604610508758</millis>
+  <nanos>550800</nanos>
   <sequence>12</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
+  <message>Processing Thread : main ID : 4, Connecting to database : jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.321593300Z</date>
-  <millis>1604605826321</millis>
-  <nanos>593300</nanos>
+  <date>2020-11-05T21:08:28.798446Z</date>
+  <millis>1604610508798</millis>
+  <nanos>446000</nanos>
   <sequence>13</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@71def8f8</message>
+  <message>Processing Thread : main ID : 4 Connection is successful! com.mysql.cj.jdbc.ConnectionImpl@71def8f8</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.330180Z</date>
-  <millis>1604605826330</millis>
-  <nanos>180000</nanos>
+  <date>2020-11-05T21:08:28.807435200Z</date>
+  <millis>1604610508807</millis>
+  <nanos>435200</nanos>
   <sequence>16</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
+  <message>Processing Thread : main ID : 5, Connecting to database : jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.375449900Z</date>
-  <millis>1604605826375</millis>
-  <nanos>449900</nanos>
+  <date>2020-11-05T21:08:28.855293500Z</date>
+  <millis>1604610508855</millis>
+  <nanos>293500</nanos>
   <sequence>17</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>1</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@5562c41e</message>
+  <message>Processing Thread : main ID : 5 Connection is successful! com.mysql.cj.jdbc.ConnectionImpl@5562c41e</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.391406600Z</date>
-  <millis>1604605826391</millis>
-  <nanos>406600</nanos>
+  <date>2020-11-05T21:08:28.870252600Z</date>
+  <millis>1604610508870</millis>
+  <nanos>252600</nanos>
   <sequence>24</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>18</thread>
-  <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
+  <message>Processing Thread : Louis Litt ID : 6, Connecting to database : jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.392404700Z</date>
-  <millis>1604605826392</millis>
-  <nanos>404700</nanos>
-  <sequence>25</sequence>
+  <date>2020-11-05T21:08:28.920119200Z</date>
+  <millis>1604610508920</millis>
+  <nanos>119200</nanos>
+  <sequence>26</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
-  <thread>17</thread>
-  <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
+  <thread>18</thread>
+  <message>Processing Thread : Louis Litt ID : 6 Connection is successful! com.mysql.cj.jdbc.ConnectionImpl@3e52b202</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.395395900Z</date>
-  <millis>1604605826395</millis>
-  <nanos>395900</nanos>
+  <date>2020-11-05T21:08:28.922113900Z</date>
+  <millis>1604610508922</millis>
+  <nanos>113900</nanos>
   <sequence>27</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
-  <thread>16</thread>
-  <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
+  <thread>17</thread>
+  <message>Processing Thread : Rachel Zane ID : 7, Connecting to database : jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.396393700Z</date>
-  <millis>1604605826396</millis>
-  <nanos>393700</nanos>
-  <sequence>28</sequence>
-  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
-  <level>INFO</level>
-  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
-  <method>getConnection</method>
-  <thread>19</thread>
-  <message>Connecting to database :jdbc:mysql://localhost:3306/payroll_service</message>
-</record>
-<record>
-  <date>2020-11-05T19:50:26.528042100Z</date>
-  <millis>1604605826528</millis>
-  <nanos>42100</nanos>
+  <date>2020-11-05T21:08:28.970983800Z</date>
+  <millis>1604610508970</millis>
+  <nanos>983800</nanos>
   <sequence>29</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>17</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@70c4f52f</message>
+  <message>Processing Thread : Rachel Zane ID : 7 Connection is successful! com.mysql.cj.jdbc.ConnectionImpl@63feff9c</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.544997100Z</date>
-  <millis>1604605826544</millis>
-  <nanos>997100</nanos>
+  <date>2020-11-05T21:08:28.971981100Z</date>
+  <millis>1604610508971</millis>
+  <nanos>981100</nanos>
   <sequence>30</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
-  <thread>16</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@1fb520c3</message>
+  <thread>19</thread>
+  <message>Processing Thread : Mike Ross ID : 8, Connecting to database : jdbc:mysql://localhost:3306/payroll_service</message>
 </record>
 <record>
-  <date>2020-11-05T19:50:26.549983800Z</date>
-  <millis>1604605826549</millis>
-  <nanos>983800</nanos>
-  <sequence>31</sequence>
-  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
-  <level>INFO</level>
-  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
-  <method>getConnection</method>
-  <thread>18</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@12465483</message>
-</record>
-<record>
-  <date>2020-11-05T19:50:26.557040300Z</date>
-  <millis>1604605826557</millis>
-  <nanos>40300</nanos>
-  <sequence>33</sequence>
+  <date>2020-11-05T21:08:29.018856Z</date>
+  <millis>1604610509018</millis>
+  <nanos>856000</nanos>
+  <sequence>32</sequence>
   <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
   <level>INFO</level>
   <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
   <method>getConnection</method>
   <thread>19</thread>
-  <message>Connection Succesfull : com.mysql.cj.jdbc.ConnectionImpl@22f6aaf7</message>
+  <message>Processing Thread : Mike Ross ID : 8 Connection is successful! com.mysql.cj.jdbc.ConnectionImpl@6e553b3c</message>
+</record>
+<record>
+  <date>2020-11-05T21:08:29.020852100Z</date>
+  <millis>1604610509020</millis>
+  <nanos>852100</nanos>
+  <sequence>33</sequence>
+  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
+  <level>INFO</level>
+  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
+  <method>getConnection</method>
+  <thread>16</thread>
+  <message>Processing Thread : Harvey Specter ID : 9, Connecting to database : jdbc:mysql://localhost:3306/payroll_service</message>
+</record>
+<record>
+  <date>2020-11-05T21:08:29.058749100Z</date>
+  <millis>1604610509058</millis>
+  <nanos>749100</nanos>
+  <sequence>34</sequence>
+  <logger>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</logger>
+  <level>INFO</level>
+  <class>com.capgemini.javaio.employeepayroll.EmployeePayrollDBService</class>
+  <method>getConnection</method>
+  <thread>16</thread>
+  <message>Processing Thread : Harvey Specter ID : 9 Connection is successful! com.mysql.cj.jdbc.ConnectionImpl@22f6aaf7</message>
 </record>
 </log>

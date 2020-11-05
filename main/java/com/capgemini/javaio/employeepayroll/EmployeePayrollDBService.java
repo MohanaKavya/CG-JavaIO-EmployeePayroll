@@ -30,6 +30,7 @@ public class EmployeePayrollDBService {
 	
 	private static PreparedStatement employeePayrollDataPreparedStatement;
 	private static EmployeePayrollDBService employeePayrollDBService;
+	private int connectionCounter = 0;
 
 	private EmployeePayrollDBService() {
 	}
@@ -68,8 +69,9 @@ public class EmployeePayrollDBService {
 	 * @return
 	 */
 	public int writeEmployeePayrollToDenormalisedDB(String name, double salary, LocalDate startDate, char gender) {
-		int employeeId = -1;
+		int id = -1;
 		int rowAffected = 0;
+		EmployeePayrollData emp_obj = null;
 		String sql = String.format(
 				"INSERT INTO payroll_employee(name,gender,salary,start) VALUES ('%s','%s','%s','%s')", name, gender,
 				salary, Date.valueOf(startDate));
@@ -79,7 +81,7 @@ public class EmployeePayrollDBService {
 			if (rowAffected == 1) {
 				ResultSet resultSet = preparedstatement.getGeneratedKeys();
 				if (resultSet.next())
-					EmployeePayrollService.newEmpPayrollDataObj.id = resultSet.getInt(1);
+					 EmployeePayrollService.newEmpPayrollDataObj.id = resultSet.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -316,14 +318,16 @@ public class EmployeePayrollDBService {
 	 * @throws SecurityException 
 	 * @throws SQLException 
 	 */
-	private Connection getConnection() throws SQLException {
+	private synchronized Connection getConnection() throws SQLException {
+		connectionCounter++;
 		String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service";
 		String user = "root";
 		String password = "L3al!lhope"; 
 		Connection connection = null;
-		log.log(Level.INFO, "Connecting to database :"+jdbcURL);
+		log.info("Processing Thread : " + Thread.currentThread().getName() +" ID : " + connectionCounter + ", Connecting to database : " + jdbcURL);
 		connection = DriverManager.getConnection(jdbcURL, user, password);
-		log.log(Level.INFO, "Connection Succesfull : "+connection);
+		log.info("Processing Thread : " + Thread.currentThread().getName() + " ID : " + connectionCounter
+				+ " Connection is successful! " + connection);
 	return connection;
 	}
 
